@@ -1,0 +1,100 @@
+/* General Styles */
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Full height to match the app */
+  width: 100vw; /* Full width */
+  background-color: #dabb73; /* Softer background color */
+  color: #ff0000;
+  font-family: "Roboto", sans-serif;
+  padding: 20px;
+}
+
+.settings-title {
+  font-size: 3em;
+  font-weight: 700;
+  color: #000000; /* Darker color for better contrast */
+  margin-bottom: 20px;
+}
+
+.options-container {
+  width: 100%; /* Full width for the options */
+  max-width: 600px; /* Max width for the options container */
+  margin-bottom: 30px;
+  color: #000000;
+}
+
+.option {
+  display: flex;
+  justify-content: space-between; /* Space between label and toggle */
+  align-items: center;
+  padding: 10px 0; /* Spacing between options */
+  border-bottom: 1px solid #000000; /* Divider line */
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px; /* Width of the switch */
+  height: 34px; /* Height of the switch */
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc; /* Background color of the slider */
+  border-radius: 34px; /* Rounded corners */
+  transition: 0.4s; /* Transition effect */
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px; /* Height of the knob */
+  width: 26px; /* Width of the knob */
+  left: 4px; /* Spacing from the left */
+  bottom: 4px; /* Spacing from the bottom */
+  background-color: white; /* Background color of the knob */
+  border-radius: 50%; /* Round knob */
+  transition: 0.4s; /* Transition effect */
+}
+
+/* Toggle effect when checked */
+input:checked + .slider {
+  background-color: #3498db; /* Active background color */
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px); /* Move knob to the right */
+}
+
+/* Back Button Styling */
+.back-button {
+  margin-top: 20px;
+  padding: 0.8em 1.5em;
+  font-size: 1em;
+  font-weight: 600;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.back-button:hover {
+  background-color: #2980b9;
+  transform: translateY(-3px);
+}

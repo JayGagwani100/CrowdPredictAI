@@ -7,8 +7,11 @@ import SearchBar from './components/SearchBar';
 import CrowdHistory from './components/CrowdHistory';
 import { getPlaceDetails, textSearch } from './services/googlePlacesService';
 import { saveDataToFirebase } from './services/firebaseService';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
+
 
 function App() {
+  const navigate = useNavigate(); // Initialize useNavigate
   const [placeId, setPlaceId] = useState('');
   const [placeName, setPlaceName] = useState<string | null>(null);
   const [searchResult, setSearchResult] = useState<google.maps.places.PlaceResult | null>(null);
@@ -54,7 +57,16 @@ function App() {
 
   return (
     <div className="app-container">
+      <h1 className="app-title">CrowdPredictor</h1>
       <SearchBar onSearch={handleSearch} />
+      <div className="button-container">
+        <button className="back-button" onClick={() => navigate('/')}>
+          Back
+        </button>
+        <button className="settings-button" onClick={() => navigate('/settings')}>
+          Settings
+        </button>
+      </div>
       <div className="map-container">
         <Map searchResult={searchResult} />
       </div>
@@ -72,4 +84,7 @@ function App() {
   );
 }
 
+
 export default App;
+
+//searchResult={searchResult}</div>

@@ -5,9 +5,9 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  width: 100%; /* Update to 100% for responsiveness */
+  width: 500vh;
   margin: 0;
-  background-color: #ffffff; /* Use a solid color for the background */
+  background-color: #dabb73;
   color: #333;
   font-family: "Roboto", sans-serif;
   text-align: center;
@@ -20,10 +20,14 @@
   margin-bottom: 20px;
 }
 
+/* Set size for the image and control visibility */
 .home-image {
-  width: 150px; /* Adjust the size as needed */
-  height: auto; /* Maintain aspect ratio */
-  margin: 20px 0; /* Space between title and image */
+  top: -50px; /* Adjust this value to move the image up/down */
+  left: -50px; /* Adjust this value to move the image left/right */
+  width: auto; /* Auto width to maintain aspect ratio */
+  height: 400px; /* Set height as needed to zoom in */
+  object-fit: cover; /* Ensures the image covers the area without distortion */
+  transition: transform 0.5s ease; /* Smooth transition for zoom effect */
 }
 
 button {
