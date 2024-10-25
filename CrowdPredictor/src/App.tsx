@@ -1,4 +1,5 @@
 // src/App.tsx
+import './App.css';
 import React, { useState } from 'react';
 import Map from './components/Map';
 import RestaurantCrowd from './components/RestaurantCrowd';
@@ -47,17 +48,24 @@ function App() {
 
 
   return (
-    <div>
+    <div className="app-container"> {/* Add this class */}
       <SearchBar onSearch={handleSearch} />
-      <Map />
+      <div className="map-container"> {/* Wrap Map in a container */}
+        <Map />
+      </div>
       {placeId && (
         <>
-          <RestaurantCrowd placeId={placeId} />
-          <CrowdHistory placeId={placeId} />
+          <div className="restaurant-crowd"> {/* Add class for styling */}
+            <RestaurantCrowd placeId={placeId} />
+          </div>
+          <div className="crowd-history"> {/* Add class for styling */}
+            <CrowdHistory placeId={placeId} />
+          </div>
         </>
       )}
     </div>
   );
+  
 }
 
 export default App;
