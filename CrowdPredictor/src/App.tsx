@@ -49,7 +49,7 @@ function App() {
   return (
     <div>
       <SearchBar onSearch={handleSearch} />
-      <Map />
+      <Map  />
       {placeId && (
         <>
           <RestaurantCrowd placeId={placeId} />
