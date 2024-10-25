@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useRef } from 'react';
+// src/components/Map.tsx
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import {
   GoogleMap,
   useLoadScript,
@@ -18,7 +19,7 @@ const center = {
   lng: -79.347015,
 };
 
-const Map = () => {
+const Map = ({ searchResult }: { searchResult: google.maps.places.PlaceResult | null }) => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: 'AIzaSyCiCkWkPsSdROJxggT-NtJ1Z9OeP75LuSo', // Replace with your API key
     libraries: ['places'], // Load Places library
@@ -55,6 +56,17 @@ const Map = () => {
     setSelectedRestaurant(null); // Close InfoWindow when map is clicked
   }, []);
 
+  useEffect(() => {
+    if (searchResult && mapRef.current) {
+      const { geometry } = searchResult;
+      if (geometry && geometry.location) {
+        mapRef.current.panTo(geometry.location);
+        mapRef.current.setZoom(15);
+        setSelectedRestaurant(searchResult);
+      }
+    }
+  }, [searchResult]);
+
   if (loadError) return <div>Error loading maps</div>;
   if (!isLoaded) return <div>Loading...</div>;
 
@@ -87,7 +99,7 @@ const Map = () => {
           }}
           onCloseClick={() => setSelectedRestaurant(null)}
         >
-          <div style={infoWindowStyle}>
+          <div>
             <h2>{selectedRestaurant.name || 'Unnamed Restaurant'}</h2>
             <p>{selectedRestaurant.vicinity || 'Address not available'}</p>
             {selectedRestaurant.rating && (
@@ -100,135 +112,4 @@ const Map = () => {
   );
 };
 
-// Styling for the InfoWindow content
-const infoWindowStyle: React.CSSProperties = {
-  color: '#000', // Black text for visibility
-  backgroundColor: '#fff', // White background
-  padding: '10px',
-  borderRadius: '8px',
-  boxShadow: '0 2px 6px rgba(0, 0, 0, 0.3)',
-};
-
 export default Map;
-
-
-
-
-
-
-/*
-
-import React, { useCallback, useState } from 'react';
-import {
-  GoogleMap,
-  useLoadScript,
-  Marker,
-  InfoWindow,
-} from '@react-google-maps/api';
-
-const mapContainerStyle = {
-  width: '100%',
-  height: '500px',
-};
-
-const center = {
-  lat: 43.65107, // Example lat
-  lng: -79.347015, // Example lng
-};
-
-// Dummy restaurant data
-const restaurants = [
-  {
-    id: 1,
-    name: 'Pizza Palace',
-    position: { lat: 43.6532, lng: -79.3832 },
-    description: 'Best pizza in the city!',
-  },
-  {
-    id: 2,
-    name: 'Sushi World',
-    position: { lat: 43.6453, lng: -79.3806 },
-    description: 'Fresh sushi and more.',
-  },
-];
-
-const Map = () => {
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyCiCkWkPsSdROJxggT-NtJ1Z9OeP75LuSo', // Replace with your actual API key
-  });
-
-  const [selectedRestaurant, setSelectedRestaurant] = useState<null | typeof restaurants[0]>(null);
-
-  const onMapClick = useCallback(() => {
-    setSelectedRestaurant(null); // Close InfoWindow when map is clicked
-  }, []);
-
-  if (loadError) return <div>Error loading maps</div>;
-  if (!isLoaded) return <div>Loading...</div>;
-
-  return (
-    <GoogleMap
-      mapContainerStyle={mapContainerStyle}
-      zoom={12}
-      center={center}
-      onClick={onMapClick}
-    >
-      //{ Render markers for each restaurant }
-      {restaurants.map((restaurant) => (
-        <Marker
-          key={restaurant.id}
-          position={restaurant.position}
-          onClick={() => setSelectedRestaurant(restaurant)}
-        />
-      ))}
-
-     // { Show InfoWindow when a restaurant is selected }
-      {selectedRestaurant && (
-        <InfoWindow
-          position={selectedRestaurant.position}
-          onCloseClick={() => setSelectedRestaurant(null)}
-        >
-          <div>
-            <h2>{selectedRestaurant.name}</h2>
-            <p>{selectedRestaurant.description}</p>
-          </div>
-        </InfoWindow>
-      )}
-    </GoogleMap>
-  );
-};
-
-export default Map;
-
-
-
-
-import React from 'react';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-
-const containerStyle = {
-  width: '100%',
-  height: '400px'
-};
-
-const center = {
-  lat: -3.745,
-  lng: -38.523
-};
-
-const Map = () => {
-  return (
-    <LoadScript googleMapsApiKey="AIzaSyCiCkWkPsSdROJxggT-NtJ1Z9OeP75LuSo">
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        zoom={10}
-      >
-        <Marker position={center} />
-      </GoogleMap>
-    </LoadScript>
-  );
-};
-
-export default Map;
-*/

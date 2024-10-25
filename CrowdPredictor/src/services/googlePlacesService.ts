@@ -39,6 +39,27 @@ export const searchPlaceByQuery = async (query: string): Promise<Place[]> => {
   }));
 };
 
+// src/services/googlePlacesService.ts
+export const textSearch = (query: string): Promise<google.maps.places.PlaceResult[]> => {
+  return new Promise((resolve, reject) => {
+    const service = new google.maps.places.PlacesService(document.createElement('div'));
+    const request = {
+      query,
+      type: 'restaurant',
+    };
+
+    service.textSearch(request, (results, status) => {
+      if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+        resolve(results);
+      } else {
+        reject(`Error fetching places: ${status}`);
+      }
+    });
+  });
+};
+
+
+
 // Function to get detailed information about a specific place
 export const getPlaceDetails = async (placeId: string) => {
   if (!placeId) {

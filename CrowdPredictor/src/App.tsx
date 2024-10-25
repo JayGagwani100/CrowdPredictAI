@@ -1,31 +1,38 @@
 // src/App.tsx
-import './App.css';
 import React, { useState } from 'react';
+import './App.css';
 import Map from './components/Map';
 import RestaurantCrowd from './components/RestaurantCrowd';
 import SearchBar from './components/SearchBar';
 import CrowdHistory from './components/CrowdHistory';
-import { getPlaceDetails, searchPlaceByQuery } from './services/googlePlacesService';
+import { getPlaceDetails, textSearch } from './services/googlePlacesService';
 import { saveDataToFirebase } from './services/firebaseService';
 
-
-
 function App() {
-  const [placeId, setPlaceId] = useState(''); // Example placeId
+  const [placeId, setPlaceId] = useState('');
   const [placeName, setPlaceName] = useState<string | null>(null);
-
+  const [searchResult, setSearchResult] = useState<google.maps.places.PlaceResult | null>(null);
 
   const handleSearch = async (query: string) => {
-    // Implement search logic to get placeId using Google Places API
-  try {
-    const { name, place_id } = await searchPlaceByQuery(query);
-    console.log('Found placeId:', place_id); // Debug
-    setPlaceId(place_id);
-    setPlaceName(name);
-  } catch (error) {
-    console.error('Error fetching place details:', error);
-  }
-};
+    try {
+      const places = await textSearch(query);
+      if (places.length > 0) {
+        const { name, place_id } = places[0];
+        console.log('Found placeId:', place_id);
+        if (place_id) {
+          setPlaceId(place_id);
+          setPlaceName(name ?? null);
+        } else {
+          console.error('Place ID is undefined');
+        }
+        setSearchResult(places[0]);
+      } else {
+        console.error('No places found for the query');
+      }
+    } catch (error) {
+      console.error('Error fetching place details:', error);
+    }
+  };
 
   const fetchAndStoreCrowdData = async (id: string) => {
     if (!id) return;
@@ -35,26 +42,22 @@ function App() {
     saveDataToFirebase(id, { time, crowdLevel: data.crowdLevel });
   };
 
-  // Fetch and store data periodically for the selected place
   React.useEffect(() => {
     if (placeId) {
       const interval = setInterval(() => {
         fetchAndStoreCrowdData(placeId);
-      }, 15 * 60 * 1000); // Fetch every 15 minutes
+      }, 15 * 60 * 1000);
 
-      return () => clearInterval(interval); // Cleanup on unmount
+      return () => clearInterval(interval);
     }
   }, [placeId]);
-
 
   return (
     <div className="app-container">
       <SearchBar onSearch={handleSearch} />
-  
       <div className="map-container">
-        <Map />
+        <Map searchResult={searchResult} />
       </div>
-  
       {placeId && (
         <>
           <div className="restaurant-crowd">
@@ -67,8 +70,6 @@ function App() {
       )}
     </div>
   );
-  
-  
 }
 
 export default App;
