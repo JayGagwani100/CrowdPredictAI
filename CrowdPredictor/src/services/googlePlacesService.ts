@@ -1,10 +1,46 @@
-// src/services/googlePlacesService.ts
 import axios from 'axios';
 
 const API_KEY = 'AIzaSyCiCkWkPsSdROJxggT-NtJ1Z9OeP75LuSo';
 
-export const getPlaceDetails = async (placeId: string) => {
+// Define the structure of the response for places
+interface Place {
+  name: string;
+  place_id: string;
+  address: string;
+  rating: number | string;
+  types: string[];
+}
 
+// Function for searching places by query
+export const searchPlaceByQuery = async (query: string): Promise<Place[]> => {
+  if (!query) {
+    throw new Error('Query is required');
+  }
+
+  const response = await axios.get(`https://maps.googleapis.com/maps/api/place/textsearch/json?query=${query}&key=${API_KEY}`);
+
+  if (response.status !== 200) {
+    throw new Error('Failed to fetch place details');
+  }
+
+  const data = response.data;
+
+  if (data.status !== 'OK') {
+    throw new Error(`Google API error: ${data.status}`);
+  }
+
+  // Return an array of places
+  return data.results.map((place: any) => ({
+    name: place.name,
+    place_id: place.place_id,
+    address: place.formatted_address,
+    rating: place.rating || 'No rating',
+    types: place.types,
+  }));
+};
+
+// Function to get detailed information about a specific place
+export const getPlaceDetails = async (placeId: string) => {
   if (!placeId) {
     console.error('Invalid placeId:', placeId); // Debug
     throw new Error('Place ID is required');
@@ -15,21 +51,10 @@ export const getPlaceDetails = async (placeId: string) => {
   const data = response.data;
   const crowdLevel = data.result.current_opening_hours?.current_busy_percent || 0; // Some places may not have crowd info
   return { name: data.result.name, crowdLevel };
-  
-  
-  //return response.data;
 };
 
-export const searchPlaceByQuery = async (query: string) => {
-
-  // Implementation for searching place by query
-
-  return { name: 'Example Place', place_id: 'example_place_id' }; // Example return value
-
-};
-
+// Function to get popular times (currently not fully implemented)
 export const getPopularTimes = async (placeId: string) => {
-  // Implement Popular Times API call
   const response = await axios.get(`https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&key=${API_KEY}`);
   const data = response.data;
   return data;
