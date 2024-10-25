@@ -13,6 +13,7 @@ function App() {
   const [placeName, setPlaceName] = useState<string | null>(null);
   const [searchResult, setSearchResult] = useState<google.maps.places.PlaceResult | null>(null);
 
+ 
   const handleSearch = async (query: string) => {
     try {
       const places = await textSearch(query);
@@ -22,10 +23,8 @@ function App() {
         if (place_id) {
           setPlaceId(place_id);
           setPlaceName(name ?? null);
-        } else {
-          console.error('Place ID is undefined');
+          setSearchResult(places[0]);
         }
-        setSearchResult(places[0]);
       } else {
         console.error('No places found for the query');
       }
@@ -33,6 +32,7 @@ function App() {
       console.error('Error fetching place details:', error);
     }
   };
+
 
   const fetchAndStoreCrowdData = async (id: string) => {
     if (!id) return;
