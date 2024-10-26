@@ -4,12 +4,11 @@ Step 1: Clone the Repository
 
 Open terminal and run:
 git clone https://github.com/amaan2106/CrowdPredictAI
+
 Step 2: Navigate to the Project Directory
 
-Run:
-bash
-Copy code
 cd CrowdPredictAI
+
 Step 3: Install Backend Requirements
 
 Ensure Python is installed.
