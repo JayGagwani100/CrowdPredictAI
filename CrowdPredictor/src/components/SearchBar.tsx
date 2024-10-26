@@ -25,7 +25,6 @@ const SearchBar = () => {
 
       const data = await response.json();
 
-      // Check if the backend returned an error
       if (data.error) {
         setErrorMessage(data.error);
       } else {
@@ -38,7 +37,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div>
+    <div style={{ maxHeight: '100vh', overflowY: 'auto' }}> {/* Allow full-page scrolling */}
       <input
         type="text"
         value={query}
@@ -51,18 +50,28 @@ const SearchBar = () => {
       {searchResults.length > 0 && (
         <div>
           <h3>Search Results:</h3>
-          <ul>
-            {searchResults.map((result, index) => (
-              <li key={index}>
-                <strong>{result.name}</strong> - {result.formatted_address} (Rating: {result.rating})
-              </li>
-            ))}
-          </ul>
+          {/* Limit the display to 3 results but allow scrolling for the full list */}
+          <div style={{ maxHeight: '300px', overflowY: 'auto', marginBottom: '20px' }}>
+            <ul>
+              {searchResults.map((result, index) => (
+                <li key={index}>
+                  <strong>{result.name}</strong> - {result.formatted_address} (Rating: {result.rating}) 
+                  <p>Busyness: {result.busyness || 'Unknown'}</p>
+                  <p>Estimated Waiting Time: {result.waiting_time || 'Unknown'}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       )}
 
       {/* Display error message if there's any */}
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+
+      {/* Map Section - Ensure it is scrollable if needed */}
+      <div style={{ marginTop: '20px' }}>
+        <p>Map goes here...</p> {/* Replace with your actual map component */}
+      </div>
     </div>
   );
 };
