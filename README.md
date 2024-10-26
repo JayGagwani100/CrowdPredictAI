@@ -30,7 +30,7 @@ Step 5: Install Python packages in backend folder:
 
   - cd Crowdpredictor
   - cd backend
-  - pip install -r requirements.txt
+  - pip3 install -r requirements.txt
 
 Step 6: Run the App (Frontend & Backend)
 
