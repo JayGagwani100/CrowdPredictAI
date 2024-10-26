@@ -33,7 +33,7 @@ cd Crowdpredictor
 cd backend
 pip install -r requirements.txt
 
-Step 5: Run the App (Frontend & Backend)
+Step 6: Run the App (Frontend & Backend)
 
 cd CrowdPredictor
 npm run dev
