@@ -37,7 +37,6 @@ Step 6: Run the App (Frontend & Backend)
 cd CrowdPredictor
 npm run dev
 
-Step 6: Access the App
 
 Missing API Keys: Ensure all keys are set up correctly.
 Port Conflicts: Verify no other processes are using ports 5173 (frontend) or 5001 (backend).
