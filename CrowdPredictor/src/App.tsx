@@ -1,4 +1,3 @@
-// src/App.tsx
 import React, { useState } from 'react';
 import './App.css';
 import Map from './components/Map';
@@ -7,8 +6,7 @@ import SearchBar from './components/SearchBar';
 import CrowdHistory from './components/CrowdHistory';
 import { getPlaceDetails, textSearch } from './services/googlePlacesService';
 import { saveDataToFirebase } from './services/firebaseService';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-
+import { useNavigate } from 'react-router-dom';
 
 function App() {
   const navigate = useNavigate(); // Initialize useNavigate
@@ -16,7 +14,6 @@ function App() {
   const [placeName, setPlaceName] = useState<string | null>(null);
   const [searchResult, setSearchResult] = useState<google.maps.places.PlaceResult | null>(null);
 
- 
   const handleSearch = async (query: string) => {
     try {
       const places = await textSearch(query);
@@ -36,7 +33,6 @@ function App() {
     }
   };
 
-
   const fetchAndStoreCrowdData = async (id: string) => {
     if (!id) return;
 
@@ -55,10 +51,15 @@ function App() {
     }
   }, [placeId]);
 
-  return (
+ return (
     <div className="app-container">
       <h1 className="app-title">CrowdPredictor</h1>
       <SearchBar onSearch={handleSearch} />
+      {searchResult && (
+        <div className="map-container">
+          <Map searchResult={searchResult} />
+        </div>
+      )}
       <div className="button-container">
         <button className="back-button" onClick={() => navigate('/')}>
           Back
@@ -67,24 +68,8 @@ function App() {
           Settings
         </button>
       </div>
-      <div className="map-container">
-        <Map searchResult={searchResult} />
-      </div>
-      {placeId && (
-        <>
-          <div className="restaurant-crowd">
-            <RestaurantCrowd placeId={placeId} />
-          </div>
-          <div className="crowd-history">
-            <CrowdHistory placeId={placeId} />
-          </div>
-        </>
-      )}
     </div>
   );
-}
-
-
+};
 export default App;
 
-//searchResult={searchResult}</div>

@@ -20,12 +20,22 @@
   margin-bottom: 20px;
 }
 
+.map-container {
+  width: 80%; /* Take 90% of the container width */
+  max-width: 600px; /* Ensure it doesn't get too large on big screens */
+  height: 400px; /* Fixed height for consistent layout */
+  margin: 20px auto; /* Center the map with margin */
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: add a shadow */
+}
+
 /* Set size for the image and control visibility */
 .home-image {
   top: -50px; /* Adjust this value to move the image up/down */
   left: -50px; /* Adjust this value to move the image left/right */
   width: auto; /* Auto width to maintain aspect ratio */
-  height: 400px; /* Set height as needed to zoom in */
+  height: 300px; /* Set height as needed to zoom in */
   object-fit: cover; /* Ensures the image covers the area without distortion */
   transition: transform 0.5s ease; /* Smooth transition for zoom effect */
 }

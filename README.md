@@ -16,16 +16,22 @@ Ensure Python is installed.
 
 Create and activate a virtual environment (optional):
 
-python3 -m venv venv  # Create a virtual environment
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+python3 -m venv venv # Create a virtual environment
+source venv/bin/activate # On Windows: venv\Scripts\activate
 
-Install Python packages:
+Step 4: Install Frontend Dependencies on both CROWDPREDICTAI Folder & CrowdPredictor
 
-pip install -r requirements.txt
-
-Step 4: Install Frontend Dependencies
-
+cd CROWDPREDICTAI
 npm install
+
+cd CrowdPredictor
+npm install
+
+Step 5: Install Python packages in backend folder:
+
+cd Crowdpredictor
+cd backend
+pip install -r requirements.txt
 
 Step 5: Run the App (Frontend & Backend)
 
@@ -33,7 +39,6 @@ cd CrowdPredictor
 npm run dev
 
 Step 6: Access the App
-
 
 Missing API Keys: Ensure all keys are set up correctly.
 Port Conflicts: Verify no other processes are using ports 5173 (frontend) or 5001 (backend).

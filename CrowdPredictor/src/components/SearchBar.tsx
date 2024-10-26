@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Map from './Map'; // Ensure Map component is imported correctly
+import './SearchBar.css'; // Import the CSS file
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
@@ -37,7 +39,7 @@ const SearchBar = () => {
   };
 
   return (
-    <div style={{ maxHeight: '100vh', overflowY: 'auto' }}> {/* Allow full-page scrolling */}
+    <div className="search-bar-container">
       <input
         type="text"
         value={query}
@@ -48,30 +50,24 @@ const SearchBar = () => {
 
       {/* Display search results */}
       {searchResults.length > 0 && (
-        <div>
+        <div className="search-results-container">
           <h3>Search Results:</h3>
-          {/* Limit the display to 3 results but allow scrolling for the full list */}
-          <div style={{ maxHeight: '300px', overflowY: 'auto', marginBottom: '20px' }}>
-            <ul>
-              {searchResults.map((result, index) => (
-                <li key={index}>
-                  <strong>{result.name}</strong> - {result.formatted_address} (Rating: {result.rating}) 
-                  <p>Busyness: {result.busyness || 'Unknown'}</p>
-                  <p>Estimated Waiting Time: {result.waiting_time || 'Unknown'}</p>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <ul>
+            {searchResults.map((result, index) => (
+              <li key={index}>
+                <strong>{result.name}</strong> - {result.formatted_address} (Rating: {result.rating}) 
+                <p>Busyness: {result.busyness || 'Unknown'}</p>
+                <p>Estimated Waiting Time: {result.waiting_time || 'Unknown'}</p>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
 
       {/* Display error message if there's any */}
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
 
-      {/* Map Section - Ensure it is scrollable if needed */}
-      <div style={{ marginTop: '20px' }}>
-        <p>Map goes here...</p> {/* Replace with your actual map component */}
-      </div>
+
     </div>
   );
 };
